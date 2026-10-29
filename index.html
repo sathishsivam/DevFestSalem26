@@ -1,0 +1,583 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#202124" />
+
+  <title>DevFest Salem 2026 | Attendee Name Cloud</title>
+
+  <style>
+    :root {
+      --background: #202124;
+      --surface: #292a2d;
+      --yellow: #F9AB00;
+      --text: #f8f9fa;
+      --muted: #bdc1c6;
+      --border: #45464a;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--background);
+      color: var(--text);
+      font-family: Inter, Arial, Helvetica, sans-serif;
+    }
+
+    header {
+      padding: 28px 20px 18px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--yellow);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 12px 0 8px;
+      font-size: clamp(30px, 6vw, 56px);
+      font-weight: 850;
+      letter-spacing: -1.8px;
+      line-height: 1.08;
+    }
+
+    h1 span {
+      color: var(--yellow);
+    }
+
+    .subtitle {
+      max-width: 620px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 22px 0;
+    }
+
+    .stat {
+      min-width: 125px;
+      padding: 12px 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--yellow);
+      font-size: 23px;
+    }
+
+    .stat small {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 16px;
+      margin: 20px auto;
+    }
+
+    .tab {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 9px;
+      padding: 12px 20px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      background: var(--yellow);
+      color: #202124;
+      border-color: var(--yellow);
+    }
+
+    main {
+      max-width: 1250px;
+      padding: 0 18px 40px;
+      margin: 0 auto;
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .section-heading {
+      margin: 28px 0 8px;
+      text-align: center;
+      font-size: 21px;
+    }
+
+    .section-description {
+      margin: 0 auto 22px;
+      max-width: 650px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* Name cloud: wraps names naturally to avoid overlap */
+    .cloud {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-content: center;
+      flex-wrap: wrap;
+      gap: 7px 12px;
+      min-height: 400px;
+      padding: 30px 20px;
+      background:
+        radial-gradient(ellipse at center,
+          rgba(249, 171, 0, 0.07), transparent 70%);
+      border: 1px solid #343539;
+      border-radius: 18px;
+    }
+
+    .cloud-name {
+      display: inline-block;
+      max-width: 100%;
+      color: var(--yellow);
+      font-weight: 750;
+      line-height: 1.25;
+      overflow-wrap: anywhere;
+      text-align: center;
+      cursor: default;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .cloud-name:hover {
+      color: #ffffff;
+      transform: scale(1.08);
+    }
+
+    .search-box {
+      max-width: 650px;
+      margin: 26px auto;
+      padding: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .search-box label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 15px 16px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      background: #202124;
+      color: white;
+      font-size: 16px;
+    }
+
+    .search-input:focus {
+      border-color: var(--yellow);
+    }
+
+    .search-hint {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    .results {
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .result-count {
+      margin: 15px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .result-item {
+      margin-bottom: 9px;
+      padding: 15px 17px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      overflow-wrap: anywhere;
+    }
+
+    .result-item strong {
+      color: var(--yellow);
+      font-size: 16px;
+    }
+
+    .empty-state {
+      padding: 24px 16px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+    }
+
+    .loading,
+    .error {
+      max-width: 700px;
+      margin: 35px auto;
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .error {
+      color: #ffb4ab;
+    }
+
+    footer {
+      padding: 25px 16px 35px;
+      border-top: 1px solid #343539;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    footer strong {
+      color: var(--yellow);
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding-top: 24px;
+      }
+
+      h1 {
+        letter-spacing: -1px;
+      }
+
+      .cloud {
+        min-height: 320px;
+        padding: 22px 12px;
+        gap: 9px 10px;
+      }
+
+      .search-box {
+        padding: 18px;
+      }
+
+      .tab {
+        flex: 1;
+        padding: 12px 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="eyebrow">Google Developer Groups</div>
+
+    <h1>DevFest Salem <span>’26</span></h1>
+
+    <p class="subtitle">
+      One community. Many builders. Find your name and celebrate
+      the people who make our developer community special.
+    </p>
+
+    <div class="stats">
+      <div class="stat">
+        <strong id="attendeeCount">—</strong>
+        <small>Attendees</small>
+      </div>
+
+      <div class="stat">
+        <strong>2026</strong>
+        <small>DevFest Salem</small>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="Attendee views">
+    <button
+      class="tab active"
+      id="cloudTab"
+      type="button"
+      aria-selected="true"
+      onclick="showPanel('cloud')">
+      Name Cloud
+    </button>
+
+    <button
+      class="tab"
+      id="searchTab"
+      type="button"
+      aria-selected="false"
+      onclick="showPanel('search')">
+      Search My Name
+    </button>
+  </nav>
+
+  <main>
+    <section class="panel active" id="cloudPanel">
+      <h2 class="section-heading">The DevFest Community</h2>
+
+      <p class="section-description">
+        Every name represents a member of our community.
+        Find yours in the crowd!
+      </p>
+
+      <div id="cloud" class="cloud">
+        <div class="loading">Loading attendee names…</div>
+      </div>
+    </section>
+
+    <section class="panel" id="searchPanel">
+      <h2 class="section-heading">Find Your Name</h2>
+
+      <p class="section-description">
+        Enter your name or part of your name to find your entry.
+      </p>
+
+      <div class="search-box">
+        <label for="nameSearch">Your registered name</label>
+
+        <input
+          class="search-input"
+          id="nameSearch"
+          type="search"
+          placeholder="Start typing your name…"
+          autocomplete="off"
+          aria-describedby="searchHint"
+        />
+
+        <p class="search-hint" id="searchHint">
+          Search is case-insensitive. You can enter just your first name.
+        </p>
+      </div>
+
+      <div class="results">
+        <div id="resultCount" class="result-count">
+          Start typing to search.
+        </div>
+
+        <div id="searchResults" aria-live="polite">
+          <div class="empty-state">
+            Your matching name will appear here.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="loadError" class="error" hidden>
+      Could not load attendee names. Please make sure
+      names.json is in the same folder as index.html.
+    </div>
+  </main>
+
+  <footer>
+    <strong>DevFest Salem 2026</strong><br />
+    Built for our developer community.<br />
+    Attendee display includes names only.
+  </footer>
+
+  <script>
+    let attendeeNames = [];
+
+    function showPanel(panel) {
+      const isCloud = panel === "cloud";
+
+      document.getElementById("cloudPanel")
+        .classList.toggle("active", isCloud);
+
+      document.getElementById("searchPanel")
+        .classList.toggle("active", !isCloud);
+
+      document.getElementById("cloudTab")
+        .classList.toggle("active", isCloud);
+
+      document.getElementById("searchTab")
+        .classList.toggle("active", !isCloud);
+
+      document.getElementById("cloudTab")
+        .setAttribute("aria-selected", String(isCloud));
+
+      document.getElementById("searchTab")
+        .setAttribute("aria-selected", String(!isCloud));
+
+      if (!isCloud) {
+        document.getElementById("nameSearch").focus();
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      })[character]);
+    }
+
+    function renderCloud(names) {
+      const cloud = document.getElementById("cloud");
+      cloud.replaceChildren();
+
+      if (names.length === 0) {
+        cloud.textContent = "No attendee names available.";
+        return;
+      }
+
+      // Deterministic size variation for a lively cloud.
+      // All names remain in a wrapping layout to prevent overlap.
+      names.forEach((name, index) => {
+        const element = document.createElement("span");
+        element.className = "cloud-name";
+        element.textContent = name;
+
+        const sizePattern = [15, 19, 13, 23, 16, 14, 20, 12, 17];
+        element.style.fontSize =
+          sizePattern[index % sizePattern.length] + "px";
+
+        cloud.appendChild(element);
+      });
+    }
+
+    function searchNames() {
+      const query = document.getElementById("nameSearch")
+        .value.trim().toLocaleLowerCase();
+
+      const results = document.getElementById("searchResults");
+      const resultCount = document.getElementById("resultCount");
+
+      results.replaceChildren();
+
+      if (!query) {
+        resultCount.textContent = "Start typing to search.";
+        const message = document.createElement("div");
+        message.className = "empty-state";
+        message.textContent = "Your matching name will appear here.";
+        results.appendChild(message);
+        return;
+      }
+
+      const matches = attendeeNames.filter(name =>
+        name.toLocaleLowerCase().includes(query)
+      );
+
+      resultCount.textContent =
+        matches.length + (matches.length === 1
+          ? " matching name"
+          : " matching names");
+
+      if (matches.length === 0) {
+        const message = document.createElement("div");
+        message.className = "empty-state";
+        message.textContent =
+          "No matching name found. Check the spelling and try again.";
+        results.appendChild(message);
+        return;
+      }
+
+      // Limit displayed results to keep mobile search manageable.
+      matches.slice(0, 100).forEach(name => {
+        const item = document.createElement("div");
+        item.className = "result-item";
+
+        const strong = document.createElement("strong");
+        strong.textContent = name;
+
+        item.appendChild(strong);
+        results.appendChild(item);
+      });
+
+      if (matches.length > 100) {
+        const note = document.createElement("p");
+        note.className = "search-hint";
+        note.textContent =
+          "Showing the first 100 results. Add more letters to narrow your search.";
+        results.appendChild(note);
+      }
+    }
+
+    async function loadNames() {
+      try {
+        const response = await fetch("./names.json", {
+          cache: "no-store"
+        });
+
+        if (!response.ok) {
+          throw new Error("Unable to fetch names.json");
+        }
+
+        const data = await response.json();
+
+        // Accept either ["Name One", "Name Two"] or {"names":[...]}.
+        const sourceNames = Array.isArray(data)
+          ? data
+          : data.names;
+
+        if (!Array.isArray(sourceNames)) {
+          throw new Error("names.json must contain an array of names");
+        }
+
+        // Names only: discard blanks, non-strings and duplicate entries.
+        attendeeNames = [...new Set(
+          sourceNames
+            .filter(name => typeof name === "string")
+            .map(name => name.trim())
+            .filter(Boolean)
+        )];
+
+        document.getElementById("attendeeCount").textContent =
+          attendeeNames.length.toLocaleString();
+
+        renderCloud(attendeeNames);
+
+        document.getElementById("nameSearch")
+          .addEventListener("input", searchNames);
+
+      } catch (error) {
+        console.error("Attendee loading error:", error);
+
+        document.getElementById("cloud").replaceChildren();
+        document.getElementById("loadError").hidden = false;
+        document.getElementById("attendeeCount").textContent = "—";
+      }
+    }
+
+    loadNames();
+  </script>
+</body>
+</html>
