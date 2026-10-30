@@ -1,488 +1,381 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#202124" />
-
-  <title>DevFest Salem 2026 | Attendee Name Cloud</title>
-
+  <meta name="description" content="DevFest Salem 2026 — speakers, topics, agenda and attendee name cloud." />
+  <title>DevFest Salem 2026 | Developer Community</title>
   <style>
     :root {
       --background: #202124;
       --surface: #292a2d;
+      --surface-2: #303134;
       --yellow: #F9AB00;
       --text: #f8f9fa;
       --muted: #bdc1c6;
       --border: #45464a;
+      --green: #81c995;
+      --blue: #8ab4f8;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    body { margin: 0; min-height: 100vh; background: var(--background); color: var(--text); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; }
+    .site-header { position: sticky; top: 0; z-index: 20; background: rgba(32,33,36,.94); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(69,70,74,.8); }
+    .nav-wrap { max-width: 1320px; margin: auto; padding: 13px 24px; display: flex; align-items: center; gap: 22px; }
+    .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; min-width: max-content; }
+    .brand-mark { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--yellow); color: #202124; font-weight: 950; font-size: 17px; letter-spacing: -1px; }
+    .brand-name { font-weight: 850; line-height: 1.15; letter-spacing: -.3px; }
+    .brand-name small { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; font-weight: 750; letter-spacing: 1.4px; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; justify-content: flex-end; gap: 5px; margin-left: auto; flex-wrap: wrap; }
+    .nav-link { border: 1px solid transparent; border-radius: 9px; padding: 10px 12px; color: var(--muted); background: transparent; text-decoration: none; cursor: pointer; font-size: 13px; font-weight: 700; white-space: nowrap; }
+    .nav-link:hover, .nav-link.active { background: var(--surface-2); color: var(--text); border-color: var(--border); }
+    .nav-link.primary { background: var(--yellow); color: #202124; border-color: var(--yellow); }
+    .hero { max-width: 1320px; margin: 0 auto; padding: 58px 24px 30px; display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(280px, .75fr); gap: 28px; align-items: stretch; }
+    .eyebrow { color: var(--yellow); font-size: 11px; font-weight: 850; letter-spacing: 2.7px; text-transform: uppercase; }
+    h1 { margin: 16px 0 16px; font-size: clamp(42px, 6.3vw, 76px); line-height: .99; letter-spacing: -3.5px; }
+    h1 span { color: var(--yellow); }
+    .hero-copy { max-width: 700px; color: var(--muted); font-size: 16px; line-height: 1.75; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+    .button { display: inline-flex; justify-content: center; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 10px; padding: 12px 16px; text-decoration: none; cursor: pointer; font-size: 13px; font-weight: 800; transition: transform .18s, border-color .18s; }
+    .button:hover { transform: translateY(-2px); border-color: var(--yellow); }
+    .button.yellow { background: var(--yellow); color: #202124; border-color: var(--yellow); }
+    .button.subtle { background: var(--surface); color: var(--text); }
+    .hero-card { position: relative; overflow: hidden; min-height: 280px; padding: 25px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid #5b4a25; border-radius: 24px; background: radial-gradient(ellipse at 100% 0%, rgba(249,171,0,.24), transparent 45%), linear-gradient(145deg, #303134, #242528 75%); }
+    .hero-card:after { content: "</>"; position: absolute; right: 10px; bottom: 2px; color: rgba(249,171,0,.09); font-size: clamp(100px, 14vw, 180px); line-height: 1; font-weight: 950; letter-spacing: -12px; pointer-events: none; }
+    .hero-card > * { position: relative; z-index: 1; }
+    .live-label { display: inline-flex; align-items: center; gap: 8px; color: var(--green); font-size: 11px; font-weight: 850; letter-spacing: 1.4px; text-transform: uppercase; }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 5px rgba(129,201,149,.12); }
+    .hero-card h2 { max-width: 310px; font-size: 29px; line-height: 1.12; letter-spacing: -1px; margin: 24px 0 10px; }
+    .hero-card p { max-width: 300px; color: var(--muted); font-size: 13px; line-height: 1.65; }
+    .mini-pills { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; }
+    .pill { display: inline-flex; align-items: center; padding: 7px 10px; border: 1px solid var(--border); border-radius: 999px; background: rgba(32,33,36,.5); color: var(--muted); font-size: 11px; font-weight: 750; }
+    .stats { max-width: 1320px; margin: 0 auto; padding: 0 24px 30px; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 13px; }
+    .stat { padding: 19px 20px; border: 1px solid var(--border); border-radius: 15px; background: var(--surface); }
+    .stat-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 12px; font-weight: 750; }
+    .stat-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(249,171,0,.12); color: var(--yellow); font-size: 16px; }
+    .stat strong { display: block; margin-top: 12px; font-size: 30px; letter-spacing: -1px; }
+    .stat small { display: block; margin-top: 5px; color: var(--muted); font-size: 11px; }
+    main { max-width: 1320px; margin: auto; padding: 8px 24px 56px; }
+    .section { margin-top: 28px; scroll-margin-top: 92px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 20px; }
+    .section-kicker { color: var(--yellow); font-size: 10px; font-weight: 850; letter-spacing: 2px; text-transform: uppercase; }
+    h2.section-title { margin: 7px 0 0; font-size: clamp(25px, 3.5vw, 34px); letter-spacing: -1.2px; }
+    .section-subtitle { max-width: 600px; margin: 8px 0 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .section-tools { display: flex; align-items: center; gap: 8px; }
+    .search-mini { min-width: 210px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; color: var(--text); outline: none; }
+    .search-mini:focus, .search-input:focus { border-color: var(--yellow); }
+    .speaker-grid { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 14px; }
+    .speaker-card { min-width: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); transition: transform .2s, border-color .2s; }
+    .speaker-card:hover { transform: translateY(-4px); border-color: #8b6b20; }
+    .speaker-image-wrap { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #35363a; }
+    .speaker-image { display: block; width: 100%; height: 100%; object-fit: cover; filter: saturate(.78); }
+    .speaker-initials { display: grid; place-items: center; width: 100%; height: 100%; background: radial-gradient(circle at 25% 20%, #4b4d52, #25262a 72%); color: var(--yellow); font-size: clamp(42px, 5vw, 64px); font-weight: 900; letter-spacing: -3px; }
+    .speaker-number { position: absolute; top: 10px; left: 10px; padding: 6px 8px; border: 1px solid rgba(255,255,255,.15); border-radius: 7px; background: rgba(32,33,36,.82); color: var(--yellow); font-size: 10px; font-weight: 850; }
+    .speaker-body { padding: 15px; }
+    .speaker-role { color: var(--yellow); font-size: 10px; font-weight: 850; letter-spacing: 1.1px; text-transform: uppercase; }
+    .speaker-name { margin: 7px 0 6px; font-size: 16px; letter-spacing: -.3px; }
+    .speaker-topic { min-height: 38px; color: var(--text); font-size: 12px; font-weight: 750; line-height: 1.5; }
+    .speaker-bio { margin: 9px 0 0; color: var(--muted); font-size: 11px; line-height: 1.65; }
+    .placeholder-note { margin-top: 15px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .topic-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 14px; }
+    .topic-card { position: relative; min-height: 205px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(145deg, var(--surface-2), var(--surface)); }
+    .topic-card:after { content: attr(data-mark); position: absolute; right: 10px; top: 8px; color: rgba(249,171,0,.11); font-size: 78px; line-height: 1; font-weight: 950; letter-spacing: -5px; }
+    .topic-card > * { position: relative; z-index: 1; }
+    .topic-icon { display: grid; place-items: center; width: 43px; height: 43px; border-radius: 12px; background: rgba(249,171,0,.13); color: var(--yellow); font-size: 21px; }
+    .topic-type { margin-top: 18px; color: var(--yellow); font-size: 10px; font-weight: 850; letter-spacing: 1.4px; text-transform: uppercase; }
+    .topic-card h3 { margin: 6px 0 8px; font-size: 17px; letter-spacing: -.4px; }
+    .topic-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .agenda-layout { display: grid; grid-template-columns: minmax(0,1.4fr) minmax(260px,.6fr); gap: 16px; }
+    .agenda-list, .agenda-aside { border: 1px solid var(--border); border-radius: 16px; background: var(--surface); padding: 20px; }
+    .agenda-list h3, .agenda-aside h3 { margin: 0 0 15px; font-size: 16px; }
+    .agenda-item { display: grid; grid-template-columns: 100px 1fr; gap: 14px; padding: 15px 0; border-top: 1px solid var(--border); }
+    .agenda-time { color: var(--yellow); font-size: 12px; font-weight: 850; }
+    .agenda-name { font-size: 13px; font-weight: 800; }
+    .agenda-desc { margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .agenda-tag { display: inline-block; margin-top: 7px; padding: 4px 7px; border-radius: 5px; background: #3a3427; color: #ffd978; font-size: 9px; font-weight: 850; text-transform: uppercase; letter-spacing: .8px; }
+    .agenda-aside { background: radial-gradient(ellipse at top right, rgba(249,171,0,.12), transparent 50%), var(--surface); }
+    .agenda-aside p { color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .agenda-note { margin-top: 14px; padding: 12px; border: 1px dashed #806523; border-radius: 10px; color: #f4d58a; font-size: 11px; line-height: 1.6; }
+    .name-layout { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(280px,.8fr); gap: 16px; }
+    .name-panel { min-width: 0; padding: 20px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); }
+    .name-panel h3 { margin: 0 0 8px; font-size: 16px; }
+    .name-panel > p { color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .cloud { display: flex; align-items: center; justify-content: center; align-content: center; flex-wrap: wrap; gap: 7px 12px; min-height: 300px; margin-top: 18px; padding: 22px 15px; background: radial-gradient(ellipse at center, rgba(249,171,0,.07), transparent 70%); border: 1px solid #343539; border-radius: 14px; }
+    .cloud-name { display: inline-block; max-width: 100%; color: var(--yellow); font-weight: 750; line-height: 1.25; overflow-wrap: anywhere; text-align: center; transition: color .2s, transform .2s; }
+    .cloud-name:hover { color: white; transform: scale(1.08); }
+    .search-box { margin-top: 16px; padding: 18px; border: 1px solid var(--border); border-radius: 13px; background: #252629; }
+    .search-box label { display: block; margin-bottom: 9px; font-size: 12px; font-weight: 800; }
+    .search-input { width: 100%; padding: 13px 14px; border: 2px solid var(--border); border-radius: 10px; outline: none; background: #202124; color: white; font-size: 15px; }
+    .search-hint { margin: 9px 0 0; color: var(--muted); font-size: 11px; line-height: 1.6; }
+    .result-count { margin: 14px 0 10px; color: var(--muted); font-size: 12px; }
+    .result-item { margin-bottom: 8px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface-2); overflow-wrap: anywhere; }
+    .result-item strong { color: var(--yellow); font-size: 14px; }
+    .empty-state { padding: 20px 14px; text-align: center; color: var(--muted); border: 1px dashed var(--border); border-radius: 10px; font-size: 12px; line-height: 1.6; }
+    .loading, .error { padding: 18px; color: var(--muted); text-align: center; font-size: 12px; line-height: 1.6; }
+    .error { color: #ffb4ab; }
+    .resource-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 14px; }
+    .resource-card { padding: 21px; border: 1px solid var(--border); border-radius: 16px; background: var(--surface); }
+    .resource-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: rgba(249,171,0,.13); color: var(--yellow); font-size: 20px; }
+    .resource-card h3 { margin: 16px 0 8px; font-size: 16px; }
+    .resource-card p { min-height: 40px; margin: 0 0 16px; color: var(--muted); font-size: 12px; line-height: 1.65; }
+    .resource-card .button { width: 100%; }
+    footer { padding: 28px 24px 38px; border-top: 1px solid #343539; text-align: center; color: var(--muted); font-size: 11px; line-height: 1.9; }
+    footer strong { color: var(--yellow); }
+    .hidden { display: none !important; }
+    @media (max-width: 1100px) { .speaker-grid { grid-template-columns: repeat(4,minmax(0,1fr)); } .topic-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .nav-wrap { flex-wrap: wrap; } .nav-links { justify-content: flex-start; width: 100%; margin-left: 0; } }
+    @media (max-width: 760px) { .hero { grid-template-columns: 1fr; padding-top: 38px; } .hero-card { min-height: 235px; } .stats { grid-template-columns: repeat(2,minmax(0,1fr)); } .speaker-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .agenda-layout, .name-layout { grid-template-columns: 1fr; } .resource-grid { grid-template-columns: 1fr; } .section-head { align-items: flex-start; flex-direction: column; } .section-tools { width: 100%; } .search-mini { width: 100%; } }
+    @media (max-width: 480px) { .nav-wrap { padding: 12px 14px; gap: 12px; } .nav-links { gap: 4px; } .nav-link { padding: 9px 10px; font-size: 11px; } .hero, .stats, main { padding-left: 14px; padding-right: 14px; } h1 { letter-spacing: -2px; } .hero-copy { font-size: 14px; } .stat { padding: 15px; } .speaker-grid { gap: 9px; } .speaker-body { padding: 11px; } .speaker-name { font-size: 14px; } .speaker-topic { font-size: 11px; } .speaker-bio { font-size: 10px; } .topic-grid { grid-template-columns: 1fr; } .topic-card { min-height: 175px; } .agenda-list, .agenda-aside, .name-panel { padding: 15px; } .agenda-item { grid-template-columns: 78px 1fr; gap: 10px; } }
+    /* GDG Salem logo in the site header */
+    .brand-logo {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    display: block;
+    border-radius: 10px;
+    background: #fff;
+    padding: 3px;
     }
 
-    * {
-      box-sizing: border-box;
+    @media (max-width: 480px) {
+    .brand-logo {
+        width: 36px;
+        height: 36px;
     }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: var(--background);
-      color: var(--text);
-      font-family: Inter, Arial, Helvetica, sans-serif;
-    }
-
-    header {
-      padding: 28px 20px 18px;
-      text-align: center;
-    }
-
-    .eyebrow {
-      color: var(--yellow);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      margin: 12px 0 8px;
-      font-size: clamp(30px, 6vw, 56px);
-      font-weight: 850;
-      letter-spacing: -1.8px;
-      line-height: 1.08;
-    }
-
-    h1 span {
-      color: var(--yellow);
-    }
-
-    .subtitle {
-      max-width: 620px;
-      margin: 0 auto;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    .stats {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin: 22px 0;
-    }
-
-    .stat {
-      min-width: 125px;
-      padding: 12px 18px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-    }
-
-    .stat strong {
-      display: block;
-      color: var(--yellow);
-      font-size: 23px;
-    }
-
-    .stat small {
-      color: var(--muted);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .tabs {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      padding: 0 16px;
-      margin: 20px auto;
-    }
-
-    .tab {
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      border-radius: 9px;
-      padding: 12px 20px;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .tab.active {
-      background: var(--yellow);
-      color: #202124;
-      border-color: var(--yellow);
-    }
-
-    main {
-      max-width: 1250px;
-      padding: 0 18px 40px;
-      margin: 0 auto;
-    }
-
-    .panel {
-      display: none;
-    }
-
-    .panel.active {
-      display: block;
-    }
-
-    .section-heading {
-      margin: 28px 0 8px;
-      text-align: center;
-      font-size: 21px;
-    }
-
-    .section-description {
-      margin: 0 auto 22px;
-      max-width: 650px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    /* Name cloud: wraps names naturally to avoid overlap */
-    .cloud {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      align-content: center;
-      flex-wrap: wrap;
-      gap: 7px 12px;
-      min-height: 400px;
-      padding: 30px 20px;
-      background:
-        radial-gradient(ellipse at center,
-          rgba(249, 171, 0, 0.07), transparent 70%);
-      border: 1px solid #343539;
-      border-radius: 18px;
-    }
-
-    .cloud-name {
-      display: inline-block;
-      max-width: 100%;
-      color: var(--yellow);
-      font-weight: 750;
-      line-height: 1.25;
-      overflow-wrap: anywhere;
-      text-align: center;
-      cursor: default;
-      transition: color 0.2s, transform 0.2s;
-    }
-
-    .cloud-name:hover {
-      color: #ffffff;
-      transform: scale(1.08);
-    }
-
-    .search-box {
-      max-width: 650px;
-      margin: 26px auto;
-      padding: 24px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-    }
-
-    .search-box label {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 15px 16px;
-      border: 2px solid var(--border);
-      border-radius: 10px;
-      outline: none;
-      background: #202124;
-      color: white;
-      font-size: 16px;
-    }
-
-    .search-input:focus {
-      border-color: var(--yellow);
-    }
-
-    .search-hint {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 10px;
-    }
-
-    .results {
-      max-width: 650px;
-      margin: 0 auto;
-    }
-
-    .result-count {
-      margin: 15px 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .result-item {
-      margin-bottom: 9px;
-      padding: 15px 17px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: var(--surface);
-      overflow-wrap: anywhere;
-    }
-
-    .result-item strong {
-      color: var(--yellow);
-      font-size: 16px;
-    }
-
-    .empty-state {
-      padding: 24px 16px;
-      text-align: center;
-      color: var(--muted);
-      border: 1px dashed var(--border);
-      border-radius: 10px;
-    }
-
-    .loading,
-    .error {
-      max-width: 700px;
-      margin: 35px auto;
-      padding: 20px;
-      text-align: center;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .error {
-      color: #ffb4ab;
-    }
-
-    footer {
-      padding: 25px 16px 35px;
-      border-top: 1px solid #343539;
-      text-align: center;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.8;
-    }
-
-    footer strong {
-      color: var(--yellow);
-    }
-
-    @media (max-width: 600px) {
-      header {
-        padding-top: 24px;
-      }
-
-      h1 {
-        letter-spacing: -1px;
-      }
-
-      .cloud {
-        min-height: 320px;
-        padding: 22px 12px;
-        gap: 9px 10px;
-      }
-
-      .search-box {
-        padding: 18px;
-      }
-
-      .tab {
-        flex: 1;
-        padding: 12px 10px;
-      }
     }
   </style>
 </head>
-
 <body>
-  <header>
-    <div class="eyebrow">Google Developer Groups</div>
-
-    <h1>DevFest Salem <span>’26</span></h1>
-
-    <p class="subtitle">
-      One community. Many builders. Find your name and celebrate
-      the people who make our developer community special.
-    </p>
-
-    <div class="stats">
-      <div class="stat">
-        <strong id="attendeeCount">—</strong>
-        <small>Attendees</small>
-      </div>
-
-      <div class="stat">
-        <strong>2026</strong>
-        <small>DevFest Salem</small>
-      </div>
+  <header class="site-header">
+    <div class="nav-wrap">
+     <a class="brand" href="#overview" aria-label="GDG Salem — DevFest Salem 2026">
+    <img
+        class="brand-logo"
+        src="./images/speakers/gdgsalem.jpeg"
+        alt="Google Developer Groups Salem logo"/>
+    <div class="brand-name">
+        DevFest Salem
+        <small>Google Developer Groups Salem · 2026</small>
+  </div>
+</a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a class="nav-link active" href="#overview">Overview</a>
+        <a class="nav-link" href="#speakers">Speakers</a>
+        <!-- <a class="nav-link" href="#topics">Topics</a> -->
+        <a class="nav-link" href="#agenda">Agenda</a>
+        <a class="nav-link" href="#name-cloud">Name Cloud</a>
+        <a class="nav-link primary" href="#resources">Attendee Links ↗</a>
+      </nav>
     </div>
   </header>
 
-  <nav class="tabs" aria-label="Attendee views">
-    <button
-      class="tab active"
-      id="cloudTab"
-      type="button"
-      aria-selected="true"
-      onclick="showPanel('cloud')">
-      Name Cloud
-    </button>
+  <section class="hero" id="overview">
+    <div>
+      <div class="eyebrow">One community. Many builders.</div>
+      <h1>Build what's <span>next.</span><br />Together.</h1>
+      <p class="hero-copy">Welcome to DevFest Salem ’26 — a gathering of developers, creators, and curious minds exploring the ideas shaping tomorrow. Meet the speakers, discover sessions, and find your name in our community.</p>
+      <div class="hero-actions">
+        <a class="button yellow" href="#speakers">Explore speakers <span aria-hidden="true">↗</span></a>
+        <a class="button subtle" href="#agenda">View agenda ↓</a>
+      </div>
+    </div>
+    <aside class="hero-card">
+      <div class="live-label"><span class="live-dot"></span> Developer community dashboard</div>
+      <div>
+        <h2>Ideas become impact when builders meet.</h2>
+        <p>Discover sessions across AI, cloud, security, data, and modern application development.</p>
+        <div class="mini-pills"><span class="pill">AI & Gemini</span><span class="pill">Cloud</span><span class="pill">Developer tools</span></div>
+      </div>
+    </aside>
+  </section>
 
-    <button
-      class="tab"
-      id="searchTab"
-      type="button"
-      aria-selected="false"
-      onclick="showPanel('search')">
-      Search My Name
-    </button>
-  </nav>
+  <section class="stats" aria-label="Event statistics">
+    <div class="stat"><div class="stat-top">Community members <span class="stat-icon">♧</span></div><strong id="attendeeCount">—</strong><small>Names in the community cloud</small></div>
+    <div class="stat"><div class="stat-top">Featured speakers <span class="stat-icon">◉</span></div><strong>12</strong><small>Talks, keynote & workshop mentors</small></div>
+    <div class="stat"><div class="stat-top">Topic tracks <span class="stat-icon">⌘</span></div><strong>08</strong><small>Sample topics and workshops</small></div>
+    <div class="stat"><div class="stat-top">Event year <span class="stat-icon">✦</span></div><strong>2026</strong><small>DevFest Salem</small></div>
+  </section>
 
   <main>
-    <section class="panel active" id="cloudPanel">
-      <h2 class="section-heading">The DevFest Community</h2>
+    <section class="section" id="speakers">
+      <div class="section-head">
+        <div><div class="section-kicker">Learn from builders</div><h2 class="section-title">Featured speakers</h2><p class="section-subtitle">Meet the speakers and workshop mentors joining DevFest Salem ’26. Search by name, expertise, or session title.</p></div>
+        <div class="section-tools"><input class="search-mini" id="speakerSearch" type="search" placeholder="Search speakers or topics…" aria-label="Search speakers or topics" /></div>
+      </div>
+      <div class="speaker-grid" id="speakerGrid">
+         <article class="speaker-card" data-search="sathishkumar paramasivam organizer · gdg salem keynote address keynote · 9:00 am">
+          <div class="speaker-image-wrap"><img class="speaker-image" src="images/speakers/sathishkumarparamasivam.jpg" alt="Sathishkumar Paramasivam — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/sathishkumar-paramasivam.jpg&quot;>SP</div>'" /><span class="speaker-number">KEYNOTE</span></div>
+          <div class="speaker-body"><div class="speaker-role">Organizer · GDG Salem</div><h3 class="speaker-name">Sathishkumar Paramasivam</h3><div class="speaker-topic">Keynote Address</div><p class="speaker-bio">Keynote </p></div>
+        </article>  
+        <article class="speaker-card" data-search="sathishkumar paramasivam organizer · gdg salem keynote address keynote · 9:00 am">
+          <div class="speaker-image-wrap"><img class="speaker-image" src="images/speakers/dean.jpeg" alt="Sathiyabhama— local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/sathishkumar-paramasivam.jpg&quot;>SP</div>'" /><span class="speaker-number">Welcome </span></div>
+          <div class="speaker-body"><div class="speaker-role">Dean, Sona College of Technology</div><h3 class="speaker-name">Dr.B.Sathiyabhama, Dean Admissions, HOD CSE</h3><div class="speaker-topic">Chief Guest Address</div><p class="speaker-bio">Welcome Address</p></div>
+        </article> 
+        <article class="speaker-card" data-search="bhavesh bhatt google developer expert · ai/ml &amp; cloud thinking in graphs, reasoning with gemini talk · 10:00 am">
+          <div class="speaker-image-wrap"><img class="speaker-image" src="images/speakers/bhavesh.jpg" alt="Bhavesh Bhatt — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/bhavesh-bhatt.jpg&quot;>BB</div>'" /><span class="speaker-number"> TALK</span></div>
+          <div class="speaker-body"><div class="speaker-role">Google Developer Expert · AI/ML &amp; Cloud</div><h3 class="speaker-name">Bhavesh Bhatt</h3><div class="speaker-topic">Thinking in Graphs, Reasoning with Gemini</div><p class="speaker-bio">Tech Talk </p></div>
+        </article>
+        <article class="speaker-card" data-search="senthil kumar murugesan google developer expert · ai/ml talk2baby: a hybrid gemini gemma architecture for unborn baby conversational agents talk · 10:20 am">
+          <div class="speaker-image-wrap"><a href="https://msenthil.com/" target="_blank" rel="noopener noreferrer" aria-label="View Senthil Kumar Murugesan official profile"><img class="speaker-image" src="images/speakers/senthil.jpeg" alt="Senthil Kumar Murugesan — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/senthil-kumar-murugesan.jpg&quot;>SM</div>'" /></a><span class="speaker-number">TALK</span></div>
+          <div class="speaker-body"><div class="speaker-role">Google Developer Expert · AI/ML</div><h3 class="speaker-name">Senthil Kumar Murugesan</h3><div class="speaker-topic">Talk2Baby: A Hybrid Gemini Gemma Architecture for Unborn Baby Conversational Agents</div><p class="speaker-bio">Talk </p></div>
+        </article>
+        <article class="speaker-card" data-search="varun raj manoharan google developer expert · firebase building secured agent environments with sandboxes talk · 11:20 am">
+          <div class="speaker-image-wrap"><img class="speaker-image" src="images/speakers/varun.jpeg" alt="Varun Raj Manoharan — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/varun-raj-manoharan.jpg&quot;>VR</div>'" /><span class="speaker-number"> TALK</span></div>
+          <div class="speaker-body"><div class="speaker-role">Google Developer Expert · Firebase</div><h3 class="speaker-name">Varun Raj Manoharan</h3><div class="speaker-topic">Building Secured Agent Environments with Sandboxes</div><p class="speaker-bio">Talk </p></div>
+        </article>
+        <article class="speaker-card" data-search="sathyaram sannasi google developer expert · data / ai / ml stateless models, stateful systems: designing data layers for long-running agents talk · 12:20 pm">
+          <div class="speaker-image-wrap"><a href="https://uk.linkedin.com/in/sathyaram" target="_blank" rel="noopener noreferrer" aria-label="View Sathyaram Sannasi LinkedIn profile"><img class="speaker-image" src="images/speakers/sathya.jpeg" alt="Sathyaram Sannasi — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/sathyaram-sannasi.jpg&quot;>SS</div>'" /></a><span class="speaker-number">TALK</span></div>
+          <div class="speaker-body"><div class="speaker-role">Google Developer Expert · Data / AI / ML</div><h3 class="speaker-name">Sathyaram Sannasi</h3><div class="speaker-topic">Stateless Models, Stateful Systems: Designing Data Layers for Long-Running Agents</div><p class="speaker-bio">Talk </p></div>
+        </article>
+         <article class="speaker-card" data-search="Madhu Vadlamani ·AI & Data Engineer Practice Manager, dhl How to Use GCP as a Fresher · 2:00 pm">
+          <div class="speaker-image-wrap"><img class="speaker-image" src="images/speakers/madhu.jpeg" alt="Madhu Vadlamani — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/vijayabharathi-karuppasamy.jpg&quot;>VK</div>'" /><span class="speaker-number"> TALK</span></div>
+          <div class="speaker-body"><div class="speaker-role">AI & Data Engineer Practice Manager</div><h3 class="speaker-name">Madhu Vadlamani</h3><div class="speaker-topic">How to Use Google Cloud Platform for Fresher</div><p class="speaker-bio">Talk </p></div>
+        </article>
+        <article class="speaker-card" data-search="vijayabharathi karuppasamy senior engineer · cloud security, dhl beyond zero trust: securing the cloud with google ai threat defense talk · ">
+          <div class="speaker-image-wrap"><img class="speaker-image" src="images/speakers/vijay.jpeg" alt="Vijayabharathi Karuppasamy — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/vijayabharathi-karuppasamy.jpg&quot;>VK</div>'" /><span class="speaker-number"> TALK</span></div>
+          <div class="speaker-body"><div class="speaker-role">Senior Engineer · Cloud Security, DHL</div><h3 class="speaker-name">Vijayabharathi Karuppasamy</h3><div class="speaker-topic">Beyond Zero Trust: Securing the Cloud with Google AI Threat Defense</div><p class="speaker-bio">Talk </p></div>
+        </article>
+        <article class="speaker-card" data-search="yash thakare software engineer · competitive programming &amp; hackathons from competitive programming to 8+ hackathon wins: the journey behind the wins talk · 2:40 pm">
+          <div class="speaker-image-wrap"><img class="speaker-image" src="images/speakers/yash.jpeg" alt="Yash Thakare — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/yash-thakare.jpg&quot;>YT</div>'" /><span class="speaker-number"> TALK</span></div>
+          <div class="speaker-body"><div class="speaker-role">Software Engineer · Competitive Programming &amp; Hackathons</div><h3 class="speaker-name">Yash Thakare</h3><div class="speaker-topic">From Competitive Programming to 8+ Hackathon Wins: The Journey Behind the Wins</div><p class="speaker-bio">Talk </p></div>
+        </article>
+        <article class="speaker-card" data-search="dinoy raj product engineer · android, strollby apps as tool boxes: make your app agent ready with app functions talk · 3:20 pm">
+          <div class="speaker-image-wrap"><img class="speaker-image" src="images/speakers/dinoy.jpeg" alt="Dinoy Raj — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/dinoy-raj.jpg&quot;>DR</div>'" /><span class="speaker-number"> TALK</span></div>
+          <div class="speaker-body"><div class="speaker-role">Product Engineer · Android, Strollby</div><h3 class="speaker-name">Dinoy Raj</h3><div class="speaker-topic">Apps as Tool Boxes: Make Your App Agent Ready with App Functions</div><p class="speaker-bio">Talk </p></div>
+        </article>
+        <article class="speaker-card" data-search="somasundaram mahesh founding ai engineer · agi inc. set goal, start loop, sleep talk · 4:00 pm">
+          <div class="speaker-image-wrap"><img class="speaker-image" src="images/speakers/somu.jpeg" alt="Somasundaram Mahesh — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/somasundaram-mahesh.jpg&quot;>SM</div>'" /><span class="speaker-number"> TALK</span></div>
+          <div class="speaker-body"><div class="speaker-role">Founding AI Engineer · AGI Inc.</div><h3 class="speaker-name">Somasundaram Mahesh</h3><div class="speaker-topic">Set Goal, Start Loop, Sleep</div><p class="speaker-bio">Talk </p></div>
+        </article>
+        <article class="speaker-card" data-search="aakash dhakshnamoorthy ai/ml engineer · zenardy alloydb omni and embedding gemma with gemma 4 on kubernetes workshop · track 2">
+          <div class="speaker-image-wrap"><img class="speaker-image" src="images/speakers/aakash.jpeg" alt="Aakash Dhakshnamoorthy — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/aakash-dhakshnamoorthy.jpg&quot;>AD</div>'" /><span class="speaker-number"> WORKSHOP</span></div>
+          <div class="speaker-body"><div class="speaker-role">AI/ML Engineer · Zenardy</div><h3 class="speaker-name">Aakash Dhakshnamoorthy</h3><div class="speaker-topic">Training and Serving a custom model in Google Cloud</div><p class="speaker-bio">Workshop · Track 2</p></div>
+        </article>
+        <article class="speaker-card" data-search="bhavya srii ananthasayanam software engineer trainee · ilink digital alloydb omni and embedding gemma with gemma 4 on kubernetes workshop · track 2">
+          <div class="speaker-image-wrap"><img class="speaker-image" src="images/speakers/bhavya.jpeg" alt="Bhavya Srii Ananthasayanam — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/bhavya-srii-ananthasayanam.jpg&quot;>BA</div>'" /><span class="speaker-number"> WORKSHOP</span></div>
+          <div class="speaker-body"><div class="speaker-role">Software Engineer Trainee · iLink Digital</div><h3 class="speaker-name">Bhavya Srii Ananthasayanam</h3><div class="speaker-topic">Training and Serving a custom model in Google Cloud</div><p class="speaker-bio">Workshop · Track 2</p></div>
+        </article>
+        <article class="speaker-card" data-search="salman zain workshop instructor · multi-agent ai building multi-agent ai for real-world applications workshop · track 3">
+          <div class="speaker-image-wrap"><img class="speaker-image" src="images/speakers/salman.jpeg" alt="Salman Zain — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/salman-zain.jpg&quot;>SZ</div>'" /><span class="speaker-number"> WORKSHOP</span></div>
+          <div class="speaker-body"><div class="speaker-role">Workshop Instructor · Multi-Agent AI</div><h3 class="speaker-name">Salman Zain</h3><div class="speaker-topic">Building Multi-Agent AI for Real-World Applications</div><p class="speaker-bio">Workshop · Track 3</p></div>
+        </article>
+        </article>
+        <article class="speaker-card" data-search="Navina j" >
+          <div class="speaker-image-wrap"><img class="speaker-image" src="images/speakers/navinajs.jpeg" alt="navina — local speaker portrait" loading="lazy" onerror="this.outerHTML='<div class=&quot;speaker-initials&quot; role=&quot;img&quot; aria-label=&quot;Add portrait file images/speakers/salman-zain.jpg&quot;>SZ</div>'" /><span class="speaker-number">Talk</span></div>
+          <div class="speaker-body"><div class="speaker-role">Beyond the UI: How AI Help us understand what Users Really experience</div><h3 class="speaker-name">Navina JS</h3><div class="speaker-topic"></div><p class="speaker-bio">Tech Talk</p></div>
+        </article>
+       
+      </div>
+      <!-- <p class="placeholder-note">Speaker names and talk titles are based on the published DevFest Salem 2026 event listing. Speaker portraits load from the local images/speakers/ folder. Add each image using the exact filename shown in the image-folder README; initials appear automatically when a file is missing. Senthil Kumar Murugesan’s and Sathyaram Sannasi’s portraits link to their profile pages.</p>
+      <div id="speakerNoResults" class="empty-state hidden">No speakers match that search. Try another keyword.</div> -->
+    </section>
 
-      <p class="section-description">
-        Every name represents a member of our community.
-        Find yours in the crowd!
-      </p>
+    <!-- <section class="section" id="topics">
+      <div class="section-head"><div><div class="section-kicker">Explore the sessions</div><h2 class="section-title">Topics & workshops</h2><p class="section-subtitle">Explore the AI, agentic systems, cloud security, data engineering, and app development sessions featured at DevFest Salem ’26.</p></div></div>
+      <div class="topic-grid">
+        <article class="topic-card" data-mark="AI"><div class="topic-icon">✧</div><div><div class="topic-type">Generative AI</div><h3>Thinking with Gemini</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Explore ideas and build useful AI-powered experiences.</p></div></article>
+        <article class="topic-card" data-mark="01"><div class="topic-icon">⌘</div><div><div class="topic-type">Agentic AI</div><h3>Agents, Tools & Sandboxes</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Discover patterns for capable, reliable agent environments.</p></div></article>
+        <article class="topic-card" data-mark="SEC"><div class="topic-icon">◈</div><div><div class="topic-type">Security</div><h3>Cloud Security & Zero Trust</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Learn how to think about security in modern cloud systems.</p></div></article>
+        <article class="topic-card" data-mark="DB"><div class="topic-icon">▤</div><div><div class="topic-type">Data Platforms</div><h3>Data Layers for AI</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Explore data foundations for long-running intelligent applications.</p></div></article>
+        <article class="topic-card" data-mark="DEV"><div class="topic-icon">{ }</div><div><div class="topic-type">App Development</div><h3>Agent-ready Applications</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consider how applications can expose useful tools and functions.</p></div></article>
+        <article class="topic-card" data-mark="K8S"><div class="topic-icon">◉</div><div><div class="topic-type">Cloud Native</div><h3>Kubernetes & Modern Cloud</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Learn concepts for packaging and running modern workloads.</p></div></article>
+        <article class="topic-card" data-mark="LAB"><div class="topic-icon">⚒</div><div><div class="topic-type">Hands-on lab</div><h3>Build, Test, Experiment</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Put concepts into practice in an interactive workshop setting.</p></div></article>
+        <article class="topic-card" data-mark="DEV"><div class="topic-icon">↗</div><div><div class="topic-type">Developer community</div><h3>From Ideas to Impact</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Share lessons, connect with peers, and grow together.</p></div></article>
+      </div>
+    </section> -->
 
-      <div id="cloud" class="cloud">
-        <div class="loading">Loading attendee names…</div>
+    <section class="section" id="agenda">
+      <div class="section-head"><div><div class="section-kicker">Plan your day</div><h2 class="section-title">Event agenda</h2><p class="section-subtitle">Use the published programme to plan your day. Session timings may be updated by the organisers.</p></div></div>
+      <div class="agenda-layout">
+        <div class="agenda-list">
+          <h3>Published programme</h3>
+           <div class="agenda-item"><div class="agenda-time">07:00 AM</div><div><div class="agenda-name">Registration & networking</div><div class="agenda-desc"> Meet fellow developers and get ready for the day with your registration and verify your tickets at counters.</div><span class="agenda-tag">Community</span></div></div>
+          
+          <div class="agenda-item"><div class="agenda-time">09:00 AM</div><div><div class="agenda-name">Welcome and Opening Keynote</div><div class="agenda-desc">Keynote Address , Kickstart of DevFestSalem'26</div><span class="agenda-tag">Community</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">09:20 AM</div><div><div class="agenda-name">Chief Guest Address</div><div class="agenda-desc">Chief Guest Address By Dr S.R.R.Senthilkumar, Principal. Dr.B.Sathiyabhama, Dean Admissions, HOD CSE</div><span class="agenda-tag">Chief Guest Address</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">09:45 AM</div><div><div class="agenda-name">Talk2Baby</div><div class="agenda-desc">A Hybrid Gemini Gemma Architecture for unborn baby conversational Agents Senthil Kumar Murugesan - Google Developer Expert - AI/ML </div><span class="agenda-tag">Gemma </span></div></div>
+          <div class="agenda-item"><div class="agenda-time">10:20 AM</div><div><div class="agenda-name">Thinking in Graphs, Reasoning with Gemini</div><div class="agenda-desc">Bhavesh Bhatt, Google Developer Expert- AI /ML & Cloud</div><span class="agenda-tag">Gemini</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">10:40 AM</div><div><div class="agenda-name">How to use GCP for Freshers</div><div class="agenda-desc">A freshers initiative to get started with Google Cloud Platform - Madhu Vadalamani ,Organizer, Google Developers Group, Vijayawada</div><span class="agenda-tag">GCP Kickstart</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">11:00 AM</div><div><div class="agenda-name">Group Photo with High Tea and Networking</div><div class="agenda-desc">Get Together for DevFestSalem26 Group Photo</div><span class="agenda-tag">High Tea & DevFest Photo</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">11:30 AM</div><div><div class="agenda-name">Building a Secure Agent Environment with Sandboxes, </div><div class="agenda-desc"> Varunraj, Google Developer Expert, Firebase</div><span class="agenda-tag">Agents</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">12:00 PM</div><div><div class="agenda-name">Stateless Models, Stateful Systems, Designing Data Layers for Long-Running Agents</div><div class="agenda-desc">Sathyaram Sannasi,London UK, Google Developer Expert.</div><span class="agenda-tag">Agentic AI</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">01:00 PM</div><div><div class="agenda-name">High Lunch with Networking </div><div class="agenda-desc">Get Together for DevFestSalem26 Group Photo</div><span class="agenda-tag">High Lunch and Networking</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">02:00 PM</div><div><div class="agenda-name">Panel Discussion with Google Developer Experts and Speakers</div><div class="agenda-desc">Raise your Queries with GDE's and Speakers</div><span class="agenda-tag">Panel Discussion</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">02:45 PM</div><div><div class="agenda-name">From Competitive Programming to 8+ Hackathon Wins </div><div class="agenda-desc">The Journey Behind the Wins- Yash Thakare</div><span class="agenda-tag">Hackathon </span></div></div>
+          <div class="agenda-item"><div class="agenda-time">03:20 PM</div><div><div class="agenda-name">Apps as Tool BoxesMake your App Agent Ready with App Functions</div><div class="agenda-desc">Dinoy Raj - Android Developer </div><span class="agenda-tag">App Development</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">03:45 PM</div><div><div class="agenda-name">Beyond Zero Trust - Securing the Cloud with Google AI Threat Defence</div><div class="agenda-desc">Vijayabharathi Karuppasamy - Senior Engineer - Cloud Security - DHL </div><span class="agenda-tag">Cloud Security</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">04:20 PM</div><div><div class="agenda-name">Set Goal, Start Loop, Sleep</div><div class="agenda-desc">SomaSundaram Mahesh - Founding AI Engineer, AGI Inc. </div><span class="agenda-tag">AI</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">04:20 PM</div><div><div class="agenda-name">Beyond the UI: How AI Helps us Understand what users really Experience</div><div class="agenda-desc">Navina JS - Software engineer </div><span class="agenda-tag">AI</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">11:30 PM</div><div><div class="agenda-name">Workshop 1 - Agent Platform: Training and Serving a custom model in Google Cloud </div><div class="agenda-desc">Aakash & Bhavya Srii, AI engineer</div><span class="agenda-tag">Cloud</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">03:15 PM</div><div><div class="agenda-name">Workshop 2 - Building Multi- Agent AI for Real-World Applications </div><div class="agenda-desc"> Salman Zain- AI Engineer </div><span class="agenda-tag">AI</span></div></div>
+          <div class="agenda-item"><div class="agenda-time">Sessions & Timings are Subject to Changable </div><div><div class="agenda-name"> GDG Organizer</div><div class="agenda-desc"> </div><span class="agenda-tag">GDG Salem</span></div></div>
+       
+        </div>
+        <aside class="agenda-aside"><div class="section-kicker">Before you arrive</div><h3>Make the most of DevFest</h3><p>Bring your curiosity, questions, and laptop for hands-on sessions where appropriate. Check this page again for the confirmed agenda and any session-specific instructions.</p><p>Use the attendee links below to open the Name Cloud, visit Google Skills, or submit event feedback.</p><div class="agenda-note"><strong>Placeholder schedule:</strong> All times and session details are examples only and are not confirmed event timings.</div><a class="button yellow" style="margin-top:16px;width:100%" href="#resources">Attendee resources ↗</a></aside>
       </div>
     </section>
 
-    <section class="panel" id="searchPanel">
-      <h2 class="section-heading">Find Your Name</h2>
-
-      <p class="section-description">
-        Enter your name or part of your name to find your entry.
-      </p>
-
-      <div class="search-box">
-        <label for="nameSearch">Your registered name</label>
-
-        <input
-          class="search-input"
-          id="nameSearch"
-          type="search"
-          placeholder="Start typing your name…"
-          autocomplete="off"
-          aria-describedby="searchHint"
-        />
-
-        <p class="search-hint" id="searchHint">
-          Search is case-insensitive. You can enter just your first name.
-        </p>
+    <section class="section" id="name-cloud">
+      <div class="section-head"><div><div class="section-kicker">Our community</div><h2 class="section-title">Find your name</h2><p class="section-subtitle">The existing attendee name cloud and search are preserved. Names are loaded from your current names.json file.</p></div></div>
+      <div class="name-layout">
+        <div class="name-panel"><h3>The DevFest community</h3><p>Every name represents a member of our community. Find yours in the crowd!</p><div id="cloud" class="cloud"><div class="loading">Loading attendee names…</div></div></div>
+        <div class="name-panel"><h3>Search attendee names</h3><p>Enter all or part of your registered name. Search is case-insensitive.</p><div class="search-box"><label for="nameSearch">Your registered name</label><input class="search-input" id="nameSearch" type="search" placeholder="Start typing your name…" autocomplete="off" aria-describedby="searchHint" /><p class="search-hint" id="searchHint">Only attendee names are displayed. Email addresses and organisation details are not loaded.</p></div><div id="resultCount" class="result-count">Start typing to search.</div><div id="searchResults" aria-live="polite"><div class="empty-state">Your matching name will appear here.</div></div></div>
       </div>
-
-      <div class="results">
-        <div id="resultCount" class="result-count">
-          Start typing to search.
-        </div>
-
-        <div id="searchResults" aria-live="polite">
-          <div class="empty-state">
-            Your matching name will appear here.
-          </div>
-        </div>
-      </div>
+      <div id="loadError" class="error" hidden>Could not load attendee names. Please make sure <code>names.json</code> is in the same folder as <code>index.html</code>.</div>
     </section>
 
-    <div id="loadError" class="error" hidden>
-      Could not load attendee names. Please make sure
-      names.json is in the same folder as index.html.
-    </div>
+    <section class="section" id="resources">
+      <div class="section-head"><div><div class="section-kicker">Useful links</div><h2 class="section-title">Attendee resources</h2><p class="section-subtitle">Add your event-specific Google Form and Skills URLs to the buttons below before sharing this page.</p></div></div>
+      <div class="resource-grid">
+        <article class="resource-card"><div class="resource-icon">⌕</div><h3>Find your name</h3><p>Quickly jump back to the attendee list and search your registered name.</p><a class="button subtle" href="#name-cloud">Open Name Cloud ↓</a></article>
+        <article class="resource-card"><div class="resource-icon">◎</div><h3>Google Skills</h3><p>Explore learning paths, labs, and Google technology resources.</p><a class="button yellow" href="https://skills.google/" target="_blank" rel="noopener noreferrer">Explore Google Skills ↗</a></article>
+        <article class="resource-card"><div class="resource-icon">◎</div><h3>Google Gear Certification program</h3><p>Google's GEAR (Gemini Enterprise Agent Ready or Gemini Agent Ready).</p><a class="button yellow" href="https://developers.google.com/program/gear" target="_blank" rel="noopener noreferrer"> Explore Google Gear Program ↗</a></article>
+       
+        <article class="resource-card"><div class="resource-icon">✎</div><h3>Event feedback</h3><p>Share your experience and help improve future developer community events.</p><a class="button subtle" href="https://docs.google.com/forms/d/e/1FAIpQLScpfCGcer1ZPiXNsJ2c_QK3lnKYRYjYeTW8x9FEmt5v-nMdKw/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">Open Google Forms ↗</a></article>
+      </div>
+    </section>
   </main>
 
-  <footer>
-    <strong>DevFest Salem 2026</strong><br />
-    Built for our developer community.<br />
-    Attendee display includes names only.
-  </footer>
+  <footer><strong>DevFest Salem 2026</strong><br />Built for our developer community.<br />Speaker profiles and agenda are placeholders. Attendee display includes names only.</footer>
 
   <script>
     let attendeeNames = [];
 
-    function showPanel(panel) {
-      const isCloud = panel === "cloud";
-
-      document.getElementById("cloudPanel")
-        .classList.toggle("active", isCloud);
-
-      document.getElementById("searchPanel")
-        .classList.toggle("active", !isCloud);
-
-      document.getElementById("cloudTab")
-        .classList.toggle("active", isCloud);
-
-      document.getElementById("searchTab")
-        .classList.toggle("active", !isCloud);
-
-      document.getElementById("cloudTab")
-        .setAttribute("aria-selected", String(isCloud));
-
-      document.getElementById("searchTab")
-        .setAttribute("aria-selected", String(!isCloud));
-
-      if (!isCloud) {
-        document.getElementById("nameSearch").focus();
-      }
-    }
-
     function escapeHtml(value) {
       return String(value).replace(/[&<>"']/g, character => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
       })[character]);
     }
 
     function renderCloud(names) {
       const cloud = document.getElementById("cloud");
       cloud.replaceChildren();
-
       if (names.length === 0) {
-        cloud.textContent = "No attendee names available.";
+        const message = document.createElement("div");
+        message.className = "empty-state";
+        message.textContent = "No attendee names available.";
+        cloud.appendChild(message);
         return;
       }
-
-      // Deterministic size variation for a lively cloud.
-      // All names remain in a wrapping layout to prevent overlap.
+      const sizePattern = [15, 19, 13, 23, 16, 14, 20, 12, 17];
       names.forEach((name, index) => {
         const element = document.createElement("span");
         element.className = "cloud-name";
         element.textContent = name;
-
-        const sizePattern = [15, 19, 13, 23, 16, 14, 20, 12, 17];
-        element.style.fontSize =
-          sizePattern[index % sizePattern.length] + "px";
-
+        element.style.fontSize = sizePattern[index % sizePattern.length] + "px";
         cloud.appendChild(element);
       });
     }
 
     function searchNames() {
-      const query = document.getElementById("nameSearch")
-        .value.trim().toLocaleLowerCase();
-
+      const query = document.getElementById("nameSearch").value.trim().toLocaleLowerCase();
       const results = document.getElementById("searchResults");
       const resultCount = document.getElementById("resultCount");
-
       results.replaceChildren();
-
       if (!query) {
         resultCount.textContent = "Start typing to search.";
         const message = document.createElement("div");
@@ -491,91 +384,70 @@
         results.appendChild(message);
         return;
       }
-
-      const matches = attendeeNames.filter(name =>
-        name.toLocaleLowerCase().includes(query)
-      );
-
-      resultCount.textContent =
-        matches.length + (matches.length === 1
-          ? " matching name"
-          : " matching names");
-
+      const matches = attendeeNames.filter(name => name.toLocaleLowerCase().includes(query));
+      resultCount.textContent = matches.length + (matches.length === 1 ? " matching name" : " matching names");
       if (matches.length === 0) {
         const message = document.createElement("div");
         message.className = "empty-state";
-        message.textContent =
-          "No matching name found. Check the spelling and try again.";
+        message.textContent = "No matching name found. Check the spelling and try again.";
         results.appendChild(message);
         return;
       }
-
-      // Limit displayed results to keep mobile search manageable.
       matches.slice(0, 100).forEach(name => {
         const item = document.createElement("div");
         item.className = "result-item";
-
         const strong = document.createElement("strong");
         strong.textContent = name;
-
         item.appendChild(strong);
         results.appendChild(item);
       });
-
       if (matches.length > 100) {
         const note = document.createElement("p");
         note.className = "search-hint";
-        note.textContent =
-          "Showing the first 100 results. Add more letters to narrow your search.";
+        note.textContent = "Showing the first 100 results. Add more letters to narrow your search.";
         results.appendChild(note);
       }
     }
 
     async function loadNames() {
       try {
-        const response = await fetch("./names.json", {
-          cache: "no-store"
-        });
-
-        if (!response.ok) {
-          throw new Error("Unable to fetch names.json");
-        }
-
+        const response = await fetch("./names.json", { cache: "no-store" });
+        if (!response.ok) throw new Error("Unable to fetch names.json");
         const data = await response.json();
-
-        // Accept either ["Name One", "Name Two"] or {"names":[...]}.
-        const sourceNames = Array.isArray(data)
-          ? data
-          : data.names;
-
-        if (!Array.isArray(sourceNames)) {
-          throw new Error("names.json must contain an array of names");
-        }
-
-        // Names only: discard blanks, non-strings and duplicate entries.
-        attendeeNames = [...new Set(
-          sourceNames
-            .filter(name => typeof name === "string")
-            .map(name => name.trim())
-            .filter(Boolean)
-        )];
-
-        document.getElementById("attendeeCount").textContent =
-          attendeeNames.length.toLocaleString();
-
+        const sourceNames = Array.isArray(data) ? data : data.names;
+        if (!Array.isArray(sourceNames)) throw new Error("names.json must contain an array of names");
+        attendeeNames = [...new Set(sourceNames.filter(name => typeof name === "string").map(name => name.trim()).filter(Boolean))];
+        document.getElementById("attendeeCount").textContent = attendeeNames.length.toLocaleString();
         renderCloud(attendeeNames);
-
-        document.getElementById("nameSearch")
-          .addEventListener("input", searchNames);
-
+        document.getElementById("nameSearch").addEventListener("input", searchNames);
       } catch (error) {
         console.error("Attendee loading error:", error);
-
         document.getElementById("cloud").replaceChildren();
         document.getElementById("loadError").hidden = false;
         document.getElementById("attendeeCount").textContent = "—";
       }
     }
+
+    document.getElementById("speakerSearch").addEventListener("input", event => {
+      const query = event.target.value.trim().toLocaleLowerCase();
+      let visible = 0;
+      document.querySelectorAll(".speaker-card").forEach(card => {
+        const matches = card.dataset.search.includes(query) || card.innerText.toLocaleLowerCase().includes(query);
+        card.classList.toggle("hidden", !matches);
+        if (matches) visible++;
+      });
+      document.getElementById("speakerNoResults").classList.toggle("hidden", visible !== 0);
+    });
+
+    const navLinks = document.querySelectorAll(".nav-link");
+    const navObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.toggle("active", link.getAttribute("href") === "#" + entry.target.id));
+        }
+      });
+    }, { rootMargin: "-25% 0px -65% 0px" });
+    document.querySelectorAll("main .section, #overview").forEach(section => navObserver.observe(section));
 
     loadNames();
   </script>
